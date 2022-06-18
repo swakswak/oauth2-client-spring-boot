@@ -45,11 +45,13 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         response.addCookie(this.createCookie(
                 "ACCESS_TOKEN",
                 jwtTokenProvider.createAccessToken(kakaoOAuth2User),
-                (int) JwtTokenProvider.ACCESS_TOKEN_EXPIRATION_TIME));
+                (int) JwtTokenProvider.ACCESS_TOKEN_EXPIRATION_TIME
+        ));
         response.addCookie(this.createCookie(
                 "REFRESH_TOKEN",
                 jwtTokenProvider.createRefreshToken(kakaoOAuth2User),
-                60 * 60 * 24 * 30));
+                (int) JwtTokenProvider.REFRESH_TOKEN_EXPIRATION_TIME
+        ));
         response.sendRedirect("/");
     }
 
