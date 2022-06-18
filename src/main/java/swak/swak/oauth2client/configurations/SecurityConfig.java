@@ -8,6 +8,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+
+    public SecurityConfig(OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler) {
+        this.oAuth2AuthenticationSuccessHandler = oAuth2AuthenticationSuccessHandler;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -20,11 +25,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 .redirectionEndpoint(redirectionEndpointConfig -> redirectionEndpointConfig
                                         .baseUri("/api/auth/{action}/oauth2/code/{registrationId}")
                                 )
-                                .successHandler(this.oAuth2AuthenticationSuccessHandler())
+                                .successHandler(oAuth2AuthenticationSuccessHandler)
                 )
 
                 .sessionManagement(sessionManagementConfig -> sessionManagementConfig
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
         ;
     }
@@ -34,8 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new OAuth2UserService();
     }
 
-    @Bean
-    OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
-        return new OAuth2AuthenticationSuccessHandler();
-    }
+//    @Bean
+//    OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
+//        return new OAuth2AuthenticationSuccessHandler();
+//    }
 }

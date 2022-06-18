@@ -1,15 +1,10 @@
 package swak.swak.oauth2client.configurations;
 
-import org.apache.tomcat.jni.Local;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class KakaoOAuth2User {
 
