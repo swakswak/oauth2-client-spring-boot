@@ -1,4 +1,4 @@
-package swak.swak.oauth2client.configurations;
+package swak.swak.oauth2client.oauth2;
 
 import org.springframework.security.oauth2.core.user.OAuth2User;
 

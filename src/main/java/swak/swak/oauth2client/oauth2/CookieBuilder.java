@@ -1,4 +1,4 @@
-package swak.swak.oauth2client.configurations;
+package swak.swak.oauth2client.oauth2;
 
 import javax.servlet.http.Cookie;
 
