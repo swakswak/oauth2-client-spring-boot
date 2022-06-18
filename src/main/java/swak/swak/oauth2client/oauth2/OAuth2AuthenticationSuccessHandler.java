@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -41,22 +42,22 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
                         principal.getAuthorities()
                 ));
 
-        response.addCookie(
-                CookieBuilder.builder("ACCESS_TOKEN", jwtTokenProvider.createAccessToken(kakaoOAuth2User))
-                        .path("/")
-                        .httpOnly(true)
-                        .maxAge((int) JwtTokenProvider.ACCESS_TOKEN_EXPIRATION_TIME)
-                        .build()
-        );
-
-        response.addCookie(
-                CookieBuilder.builder("REFRESH_TOKEN", jwtTokenProvider.createRefreshToken(kakaoOAuth2User))
-                        .path("/")
-                        .httpOnly(true)
-                        .maxAge(60 * 60 * 24 * 30)
-                        .build()
-        );
-
+        response.addCookie(this.createCookie(
+                "ACCESS_TOKEN",
+                jwtTokenProvider.createAccessToken(kakaoOAuth2User),
+                (int) JwtTokenProvider.ACCESS_TOKEN_EXPIRATION_TIME));
+        response.addCookie(this.createCookie(
+                "REFRESH_TOKEN",
+                jwtTokenProvider.createRefreshToken(kakaoOAuth2User),
+                60 * 60 * 24 * 30));
         response.sendRedirect("/");
+    }
+
+    private Cookie createCookie(String key, String value, int maxAge) {
+        return CookieBuilder.builder(key, value)
+                .path("/")
+                .httpOnly(true)
+                .maxAge(maxAge)
+                .build();
     }
 }
